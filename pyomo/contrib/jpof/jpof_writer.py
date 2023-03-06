@@ -8,7 +8,7 @@
 #  This software is distributed under the 3-clause BSD License.
 #  ___________________________________________________________________________
 
-__all__ = ['ProblemWriter_json']
+__all__ = ['JPOFWriter']
 
 #
 # JSON Problem Writer Plugin
@@ -116,7 +116,7 @@ class JPOFWriter(AbstractProblemWriter):
 
         if len(io_options):
             raise ValueError(
-                "ProblemWriter_json passed unrecognized io_options:\n\t" +
+                "JPOFWriter passed unrecognized io_options:\n\t" +
                 "\n\t".join("%s = %s" % (k,v) for k,v in iteritems(io_options)))
 
         if filename is None:
@@ -243,12 +243,6 @@ class JPOFWriter(AbstractProblemWriter):
                 self._nonlinear_expr_to_list(exp.arg(0), slist, used_vars, used_params)
                 self._nonlinear_expr_to_list(exp.arg(1), slist, used_vars, used_params)
 
-            # elif exp_type in [EXPR.ReciprocalExpression, EXPR.NPV_ReciprocalExpression]:
-            #     assert exp.nargs() == 1
-            #     slist.append("/")
-            #     self._nonlinear_expr_to_list(1.0, slist, used_vars, used_params)
-            #     self._nonlinear_expr_to_list(exp.arg(0), slist, used_vars, used_params)
-
             elif exp_type in [EXPR.NegationExpression, EXPR.NPV_NegationExpression]:
                 assert exp.nargs() == 1
                 slist.append("neg")
@@ -267,44 +261,15 @@ class JPOFWriter(AbstractProblemWriter):
 
             elif exp_type is EXPR.Expr_ifExpression:
                 pass
-                #slist.append("if")
-                #self._nonlinear_expr_to_list(exp._if, slist)
-                #self._nonlinear_expr_to_list(exp._then, slist)
-                #self._nonlinear_expr_to_list(exp._else, slist)
 
             elif exp_type is EXPR.InequalityExpression:
                 pass
-                #if exp._strict:
-                #    slist.append("<")
-                #else:
-                #    slist.append("<=")
-                #self._nonlinear_expr_to_list(exp.arg(0), slist)
-                #self._nonlinear_expr_to_list(exp.arg(1), slist)
 
             elif exp_type is EXPR.RangedExpression:
                 pass
-                #left = exp.arg(0)
-                #middle = exp.arg(1)
-                #right = exp.arg(2)
-                #OUTPUT.write(and_str)
-                #if exp._strict[0]:
-                #    OUTPUT.write(lt_str)
-                #else:
-                #    OUTPUT.write(le_str)
-                #self._print_nonlinear_terms_NL(left)
-                #self._print_nonlinear_terms_NL(middle)
-                #if exp._strict[1]:
-                #    OUTPUT.write(lt_str)
-                #else:
-                #    OUTPUT.write(le_str)
-                #self._print_nonlinear_terms_NL(middle)
-                #self._print_nonlinear_terms_NL(right)
 
             elif exp_type is EXPR.EqualityExpression:
                 pass
-                #OUTPUT.write(self._op_string[EXPR.EqualityExpression])
-                #self._print_nonlinear_terms_NL(exp.arg(0))
-                #self._print_nonlinear_terms_NL(exp.arg(1))
 
             elif isinstance(exp, (_ExpressionData, IIdentityExpression)) \
                  or isinstance(exp, (_ExpressionData, NPV_IIdentityExpression)):
